@@ -10,20 +10,20 @@ const Cart = (props) => {
             description: 'A german specialty!',
             price: 16.5,
         }].map((element) => {
-            return <li>
+            return <li key = {element.id}>
                 {element.name}
             </li>
         })}
     </ul>
 
-    return <Modal>
+    return <Modal onClose={props.onClose}>
         {cartItems}
         <div className={styles.total}>
         <span> Total Amount </span>
         <span> 37 </span>  
         </div>
         <div className={styles.actions}>
-            <button className={styles['button--alt']}> Close </button>
+            <button className={styles['button--alt']} onClick = {props.onClose}> Close </button>
             <button className={styles.button}> Order </button>
         </div>
     </Modal>
