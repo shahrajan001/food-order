@@ -7,7 +7,7 @@ import axios from "axios";
 const AvailableMeals = () => {
     const [meals, setMeals] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [httpError, setHttpError] = useState(null)
+    const [httpError, setHttpError] = useState()
 
     useEffect(() => {
         const fetchMeals = async () => {
@@ -17,10 +17,8 @@ const AvailableMeals = () => {
                 headers: {}
             };
             let loadedMeals = []
-
             await axios(config)
                 .then(function (response) {
-
                     for (const key in response.data) {
                         loadedMeals.push({
                             id: response.data[key].id,
@@ -30,20 +28,16 @@ const AvailableMeals = () => {
                         })
                     }
                     setMeals(loadedMeals)
+                    setIsLoading(false)
                 })
                 .catch(function (error) {
                     console.log(error);
+                    setIsLoading(false)
                     setHttpError(error.message)
-                    throw new Error('Something went wrong')
+                    // throw new Error('Something went wrong')
                 })
-            setIsLoading(false)
         }
-        try {
             fetchMeals()
-        } catch (error) {
-            setIsLoading(false)
-            console.log(error)
-        }
     }, [])
     if (isLoading) {
         return <section className={styles.mealsLoading}>
@@ -51,7 +45,7 @@ const AvailableMeals = () => {
         </section>
     }
     if (httpError) {
-        return <section className={styles.mealsLoading}>
+        return <section className={styles.mealsError}>
             <p> {httpError}</p>
         </section>
     }
