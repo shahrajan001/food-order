@@ -46,7 +46,8 @@ const Cart = (props) => {
             .catch(function (error) {
                 console.log(error);
             });    
-            setIsSubmitting(false)    
+            setIsSubmitting(false)
+            cartContext.clearCart()
     }
 
     const cartItems = <ul className={styles['cart-items']}>{
